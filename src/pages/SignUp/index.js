@@ -1,8 +1,73 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useRef } from 'react';
+import { Image } from 'react-native';
+import PropTypes from 'prop-types';
 
-// import { Container } from './styles';
+import logo from '~/assets/logo.png';
 
-export default function SignUp() {
-  return <View />;
+import Background from '~/components/Background';
+
+import {
+  Container,
+  Form,
+  FormInput,
+  SubmitButton,
+  SignLink,
+  SignLinkText,
+} from './styles';
+
+export default function SignUp({ navigation }) {
+  const mailRef = useRef();
+  const passwordRef = useRef();
+
+  function handleSubmit() {}
+
+  return (
+    <Background>
+      <Container>
+        <Image source={logo} />
+
+        <Form>
+          <FormInput
+            icon="person-outline"
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholder="Nome Completo"
+            returnKeyType="next"
+            onSubmitEditing={() => mailRef.current.focus()}
+          />
+
+          <FormInput
+            icon="mail-outline"
+            keyboardType="email-address"
+            autoCorrect={false}
+            autoCapitalize="none"
+            placeholder="Digite seu e-mail"
+            ref={mailRef}
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current.focus()}
+          />
+
+          <FormInput
+            icon="lock-outline"
+            secureTextEntry
+            placeholder="Sua senha secreta"
+            returnKeyType="send"
+            onSubmitEditing={handleSubmit}
+          />
+
+          <SubmitButton onPress={handleSubmit}>Criar conta</SubmitButton>
+        </Form>
+
+        <SignLink onPress={() => navigation.navigate('SignIn')}>
+          <SignLinkText>Já tenho conta</SignLinkText>
+        </SignLink>
+      </Container>
+    </Background>
+  );
 }
+
+SignUp.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
